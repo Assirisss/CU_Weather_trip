@@ -24,7 +24,7 @@ def get_current_weather(lat, lon):
     temp = response.get('main').get('temp'),
     humidity = response.get('main').get('humidity'),
     speed_wind = response.get('wind').get('speed'),
-    rain = response.get('rain').get('1h')
+    rain = response.get('rain')
     )
 
     return current
@@ -45,7 +45,7 @@ def get_forecast_weather(lat, lon):
         temp = response.get('main').get('temp'),
         humidity = response.get('main').get('humidity'),
         speed_wind = response.get('wind').get('speed'),
-        rain = response.get('pop'),
+        rain = response.get('pop') * 100
     )
 
     return  forecst
