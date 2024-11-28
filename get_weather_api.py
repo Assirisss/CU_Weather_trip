@@ -20,11 +20,12 @@ def get_current_weather(lat, lon):
         'units': 'metric'
     }
     response = requests.request(url=url_weather_cur, method='GET', params=params_weather_cur).json()
+    print(lat, lon)
     current = dict(
-    temp = response.get('main').get('temp'),
-    humidity = response.get('main').get('humidity'),
-    speed_wind = response.get('wind').get('speed'),
-    rain = response.get('rain')
+    temp = f"{response.get('main').get('temp')} °C",
+    humidity = f"{response.get('main').get('humidity')} %",
+    speed_wind = f"{response.get('wind').get('speed')} m/s",
+    rain = f"{0 if response.get('rain') is None else 100} %"
     )
 
     return current
@@ -39,16 +40,19 @@ def get_forecast_weather(lat, lon):
         'units': 'metric'
     }
     response = requests.request(url=url_weather_cur, method='GET', params=params_weather_cur).json()
-    response =response.get('list')[0]
+    response =response.get('list')
+    mas = []
+    for i in range(4):
+        tem = response[i]
+        forecst = dict(
+            temp=f"{tem.get('main').get('temp')} °C",
+            humidity=f"{tem.get('main').get('humidity')} %",
+            speed_wind=f"{tem.get('wind').get('speed')} m/s",
+            rain = f"{tem.get('pop') * 100} %"
+        )
+        mas.append([forecst, tem.get('dt_txt')])
 
-    forecst = dict(
-        temp = response.get('main').get('temp'),
-        humidity = response.get('main').get('humidity'),
-        speed_wind = response.get('wind').get('speed'),
-        rain = response.get('pop') * 100
-    )
-
-    return  forecst
+    return  mas
 
 print(get_forecast_weather(lat, lon))
 
