@@ -1,5 +1,7 @@
 
 def weather_assessment(temp, humidity, wind_speed, rain_probability):
+    temp, humidity, wind_speed, rain_probability = [float(i.split()[0]) for i in [temp, humidity, wind_speed, rain_probability]]
+
     flag = True
     try:
         if temp < 5 and wind_speed > 8:
@@ -17,7 +19,10 @@ def weather_assessment(temp, humidity, wind_speed, rain_probability):
         if humidity < 10 or humidity > 90:
             flag = False
 
-        if wind_speed > 50:
+        if wind_speed > 6:
+            flag = False
+
+        if temp < -10 or temp > 35:
             flag = False
 
         return 'Благоприятная погода' if flag else 'Неблагоприятная погода'
